@@ -101,7 +101,7 @@ CHECK (hourly_rate > 0);
 
 ALTER TABLE employees
 ADD CONSTRAINT chk_employees_type
-CHECK (employment_type IN ('Full-time', 'Part-time', 'Temporary'));
+CHECK (employment_type IN ('Full-time', 'Part-time', 'zero-hours'));
 
 ALTER TABLE employees
 ADD CONSTRAINT chk_employees_status
@@ -186,3 +186,6 @@ ADD CONSTRAINT chk_service_status
 CHECK (service_status IN ('On Time', 'Delayed', 'Cancelled'));
 
 
+ALTER TABLE shifts
+ADD CONSTRAINT chk_shifts_shift_type
+CHECK (shift_type IN ('Opening','Mid', 'Closing'));

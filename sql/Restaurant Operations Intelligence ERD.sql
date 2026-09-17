@@ -152,3 +152,5 @@ ALTER TABLE "customer_feedback" ADD FOREIGN KEY ("branch_id") REFERENCES "branch
 ALTER TABLE "service_metrics" ADD FOREIGN KEY ("order_id") REFERENCES "orders" ("order_id") DEFERRABLE INITIALLY IMMEDIATE;
 
 ALTER TABLE "service_metrics" ADD FOREIGN KEY ("branch_id") REFERENCES "branches" ("branch_id") DEFERRABLE INITIALLY IMMEDIATE;
+
+ALTER TABLE "waste_records" ADD FOREIGN KEY ("order_item_id") REFERENCES "order_items" ("order_item_id") DEFERRABLE INITIALLY IMMEDIATE;

@@ -33,7 +33,9 @@ CREATE TABLE products (
     calories INTEGER,
     menu_status VARCHAR(20) NOT NULL,
     supplier VARCHAR(100),
-    created_date DATE NOT NULL
+    created_date DATE NOT NULL,
+    subcategory VARCHAR(50) NOT NULL,
+    serving_temperature VARCHAR(10) NOT NULL,
 );
 
 
@@ -47,6 +49,7 @@ CREATE TABLE orders (
     discount_amount DECIMAL(10,2) DEFAULT 0,
     final_amount DECIMAL(10,2) NOT NULL,
     order_status VARCHAR(20) NOT NULL,
+    table_number INTEGER NOT NULL,
     CONSTRAINT fk_orders_branch
         FOREIGN KEY (branch_id)
         REFERENCES branches(branch_id)
@@ -60,6 +63,7 @@ CREATE TABLE order_items (
     quantity INTEGER NOT NULL,
     unit_price DECIMAL(10,2) NOT NULL,
     line_total DECIMAL(10,2) NOT NULL,
+    item_status VARCHAR(20) NOT NULL,
 
     CONSTRAINT fk_order_items_order
         FOREIGN KEY (order_id)
@@ -85,6 +89,19 @@ CREATE TABLE employees (
     CONSTRAINT fk_employees_branch
         FOREIGN KEY (branch_id)
         REFERENCES branches(branch_id)
+    CONSTRAINT chk_employees_job_role CHECK (
+    job_role IN (
+        'General Manager',
+        'Assistant Manager FOH',
+        'Assistant Manager BOH',
+        'Head Chef',
+        'Team Leader FOH',
+        'Team Leader BOH',
+        'Kitchen Team Member',
+        'Front of House Team Member',
+        'Kitchen Porter'
+    )
+)
 );
 
 CREATE TABLE shifts (
@@ -98,6 +115,7 @@ CREATE TABLE shifts (
     shift_type VARCHAR(20),
     overtime_hours DECIMAL(5,2) DEFAULT 0,
     shift_status VARCHAR(20) NOT NULL,
+    work_area VARCHAR(20) NOT NULL,
 
     CONSTRAINT fk_shifts_employee
         FOREIGN KEY (employee_id)
@@ -129,6 +147,7 @@ CREATE TABLE waste_records (
     branch_id INTEGER NOT NULL,
     product_id INTEGER NOT NULL,
     employee_id INTEGER,
+    order_item_id INTEGER,
     waste_date DATE NOT NULL,
     waste_time TIME NOT NULL,
     quantity INTEGER NOT NULL,
